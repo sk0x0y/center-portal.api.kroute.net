@@ -21,5 +21,23 @@ module.exports = {
         message: "권한이 없습니다"
       });
     }
+  },
+  getAll(req, res) {
+    if (req.user.level === 10) {
+      let users = [];
+
+      User.findAll().then(result => {
+        result.forEach(data => {
+          return users.push(data.dataValues);
+        });
+
+        res.status(200).json(users);
+      });
+    } else {
+      res.status(401).json({
+        statusCode: 401,
+        message: "권한이 없습니다"
+      });
+    }
   }
 };
